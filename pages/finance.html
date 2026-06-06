@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Finance | Metic OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --surface-3: #1c1c1c;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.13);
+  --text: #f0ede8;
+  --text-2: rgba(240,237,232,0.55);
+  --text-3: rgba(240,237,232,0.28);
+  --accent: #c9a96e;
+  --accent-dim: rgba(201,169,110,0.1);
+  --green: #5cba8a;
+  --green-dim: rgba(92,186,138,0.1);
+  --red: #e05c5c;
+  --red-dim: rgba(224,92,92,0.1);
+  --amber: #e0a84a;
+  --amber-dim: rgba(224,168,74,0.1);
+  --nav-h: 62px;
+  --radius: 14px;
+  --radius-sm: 9px;
+}
+
+html { background: var(--bg); scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  display: flex; align-items: center; padding: 0 28px;
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-monogram {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600;
+  color: #0a0a0a;
+}
+.nav-wordmark { font-size: 15px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); }
+.nav-links { display: flex; align-items: center; gap: 2px; margin-left: 36px; list-style: none; }
+.nav-links a {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px;
+  font-size: 13.5px; color: var(--text-2); text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-links a.active { color: var(--text); background: rgba(255,255,255,0.08); }
+.nav-right { margin-left: auto; }
+.btn-primary {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 9px;
+  background: var(--accent); color: #0a0a0a;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ── MAIN ── */
+main {
+  padding-top: calc(var(--nav-h) + 40px);
+  padding-bottom: 80px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: 28px; padding-right: 28px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom: 40px; animation: fadeUp 0.45s ease both; }
+.page-eyebrow {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
+}
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--text);
+}
+.page-title em { font-style: italic; color: var(--accent); }
+.page-sub { margin-top: 10px; font-size: 14.5px; font-weight: 300; color: var(--text-2); }
+
+/* ── STAT CARDS ── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.45s 0.07s ease both;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px 18px;
+  transition: border-color 0.2s;
+  position: relative; overflow: hidden;
+}
+.stat-card:hover { border-color: var(--border-hover); }
+.stat-card.green { border-color: rgba(92,186,138,0.2); background: var(--green-dim); }
+.stat-card.red   { border-color: rgba(224,92,92,0.2);  background: var(--red-dim);   }
+.stat-card.gold  { border-color: rgba(201,169,110,0.2); background: var(--accent-dim); }
+.stat-label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); margin-bottom: 10px;
+}
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 400; line-height: 1;
+  color: var(--text); letter-spacing: -0.02em;
+}
+.stat-value.green { color: var(--green); }
+.stat-value.red   { color: var(--red);   }
+.stat-value.gold  { color: var(--accent); }
+.stat-note { margin-top: 8px; font-size: 11.5px; color: var(--text-3); }
+
+/* ── SECTION TITLE ── */
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* ── TWO-COL ── */
+.two-col {
+  display: grid; grid-template-columns: 1fr 380px; gap: 16px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.45s 0.14s ease both;
+}
+
+/* ── PRICING ENGINE ── */
+.engine-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.card-header {
+  padding: 18px 22px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.card-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.card-icon svg { color: var(--accent); }
+.card-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.card-sub   { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+.engine-body { padding: 22px; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field-label { font-size: 11.5px; color: var(--text-3); letter-spacing: 0.04em; }
+.field input, .field select {
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 13px;
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+  color: var(--text); outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.field input:focus, .field select:focus { border-color: rgba(201,169,110,0.4); }
+.field input::placeholder { color: var(--text-3); }
+.field select option { background: #1c1c1c; }
+
+.margin-slider-wrap { margin-bottom: 18px; }
+.margin-slider-top { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.margin-slider-label { font-size: 11.5px; color: var(--text-3); }
+.margin-slider-val { font-size: 13px; font-weight: 500; color: var(--accent); }
+input[type=range] {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 3px; border-radius: 2px;
+  background: linear-gradient(to right, var(--accent) var(--pct, 60%), var(--surface-3) var(--pct, 60%));
+  outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg); cursor: pointer;
+}
+
+.engine-result {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 18px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+  margin-bottom: 16px;
+}
+.result-item {}
+.result-item-label { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+.result-item-val   { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: var(--text); }
+.result-item-val.good { color: var(--green); }
+.result-item-val.warn { color: var(--amber); }
+.result-item-val.bad  { color: var(--red);   }
+
+.health-bar { height: 3px; border-radius: 2px; background: var(--surface-3); overflow: hidden; margin-top: 12px; }
+.health-fill { height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(.4,0,.2,1), background 0.4s; }
+
+.verdict {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  font-size: 12.5px; margin-top: 2px;
+}
+.verdict.good { background: var(--green-dim); color: var(--green); border: 1px solid rgba(92,186,138,0.2); }
+.verdict.warn { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(224,168,74,0.2); }
+.verdict.bad  { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(224,92,92,0.2);  }
+.verdict svg  { flex-shrink: 0; }
+
+.btn-save {
+  width: 100%; padding: 11px; border-radius: var(--radius-sm);
+  background: var(--accent); color: #0a0a0a;
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500;
+  border: none; cursor: pointer; margin-top: 14px;
+  transition: opacity 0.2s;
+}
+.btn-save:hover { opacity: 0.85; }
+
+/* ── EXPENSE LOG ── */
+.expense-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.expense-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.expense-body .field input { width: 100%; }
+
+.btn-ghost {
+  width: 100%; padding: 10px; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-2);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
+  border: 1px solid var(--border); cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover { background: var(--surface-3); color: var(--text); border-color: var(--border-hover); }
+
+/* ── TRANSACTION TABLE ── */
+.table-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  animation: fadeUp 0.45s 0.2s ease both;
+}
+.table-toolbar {
+  padding: 16px 22px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.filter-tabs { display: flex; gap: 4px; }
+.filter-tab {
+  padding: 5px 14px; border-radius: 20px; font-size: 12.5px;
+  background: transparent; color: var(--text-3);
+  border: 1px solid transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.filter-tab.active { background: var(--surface-3); color: var(--text); border-color: var(--border); }
+.filter-tab:hover:not(.active) { color: var(--text-2); }
+
+.export-btn {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px;
+  background: transparent; color: var(--text-3);
+  border: 1px solid var(--border); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  transition: all 0.15s;
+}
+.export-btn:hover { color: var(--text); border-color: var(--border-hover); }
+
+table { width: 100%; border-collapse: collapse; }
+thead tr { border-bottom: 1px solid var(--border); }
+thead th {
+  padding: 12px 22px; text-align: left;
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 400;
+}
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
+tbody td {
+  padding: 14px 22px; font-size: 13.5px; color: var(--text-2);
+}
+tbody td:first-child { color: var(--text); font-weight: 400; }
+
+.type-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 500;
+}
+.type-income  { background: var(--green-dim); color: var(--green); }
+.type-expense { background: var(--red-dim);   color: var(--red);   }
+.type-cogs    { background: var(--amber-dim); color: var(--amber); }
+
+.amount-pos { color: var(--green); font-weight: 500; }
+.amount-neg { color: var(--red);   font-weight: 500; }
+
+.empty-state {
+  padding: 52px 22px; text-align: center;
+}
+.empty-state-icon { font-size: 28px; margin-bottom: 14px; opacity: 0.3; }
+.empty-state-title { font-size: 14px; color: var(--text-2); margin-bottom: 6px; }
+.empty-state-sub   { font-size: 12.5px; color: var(--text-3); }
+
+.delete-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-3); padding: 4px; border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+}
+.delete-btn:hover { color: var(--red); background: var(--red-dim); }
+
+/* ── BOTTOM ROW ── */
+.bottom-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-top: 16px;
+  animation: fadeUp 0.45s 0.26s ease both;
+}
+
+/* ── MARGIN BREAKDOWN ── */
+.breakdown-body { padding: 20px 22px; }
+.breakdown-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-name { font-size: 13px; color: var(--text-2); flex: 1; }
+.breakdown-bar-wrap { flex: 2; height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden; }
+.breakdown-bar { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+.breakdown-pct { font-size: 12.5px; font-weight: 500; color: var(--text); width: 38px; text-align: right; }
+
+/* ── GOALS ── */
+.goals-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+.goal-item {}
+.goal-top { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.goal-name { font-size: 13px; color: var(--text-2); }
+.goal-vals { font-size: 12px; color: var(--text-3); }
+.goal-vals span { color: var(--text); font-weight: 500; }
+.goal-track { height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden; }
+.goal-fill  { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.6s; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .two-col   { grid-template-columns: 1fr; }
+  .bottom-row { grid-template-columns: 1fr; }
+  .nav-links  { display: none; }
+}
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .engine-result { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="../index.html" class="nav-logo">
+        <div class="nav-monogram">M</div>
+        <span class="nav-wordmark" id="navBrandName">Metic</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="../index.html">Dashboard</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="suppliers.html">Suppliers</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="finance.html" class="active">Finance</a></li>
+        <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="nav-right">
+        <button class="btn-primary" onclick="quickNewAction()">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span id="quickActionText">New Product</span>
+        </button>
+    </div>
+</nav>
+
+<main>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <p class="page-eyebrow">Financial Control</p>
+    <h1 class="page-title">Your Numbers,<br><em>Clearly.</em></h1>
+    <p class="page-sub">Revenue, margins, expenses and pricing — every financial decision in one place.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card green">
+      <p class="stat-label">Total Revenue</p>
+      <p class="stat-value green" id="statRevenue">£0</p>
+      <p class="stat-note">All income logged</p>
+    </div>
+    <div class="stat-card red">
+      <p class="stat-label">Total Expenses</p>
+      <p class="stat-value red" id="statExpenses">£0</p>
+      <p class="stat-note">COGS + overheads</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Net Profit</p>
+      <p class="stat-value" id="statProfit">£0</p>
+      <p class="stat-note" id="statProfitNote">—</p>
+    </div>
+    <div class="stat-card gold">
+      <p class="stat-label">Avg. Margin</p>
+      <p class="stat-value gold" id="statMargin">—</p>
+      <p class="stat-note">Across transactions</p>
+    </div>
+  </div>
+
+  <!-- PRICING ENGINE + EXPENSE QUICK-ADD -->
+  <div class="section-head">
+    <span class="section-title">Pricing Engine</span>
+  </div>
+  <div class="two-col">
+
+    <!-- ENGINE -->
+    <div class="engine-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3"/>
+            <path d="M9 15h3l8.5-8.5a1.5 1.5 0 00-3-3L9 12v3z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="card-title">Pricing Calculator</p>
+          <p class="card-sub">Find the right retail price for any product</p>
+        </div>
+      </div>
+      <div class="engine-body">
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Production Cost (£)</label>
+            <input type="number" id="engCost" placeholder="e.g. 18.00" min="0" step="0.01" oninput="calcEngine()" />
+          </div>
+          <div class="field">
+            <label class="field-label">Platform / Selling Channel</label>
+            <select id="engPlatform" onchange="calcEngine()">
+              <option value="0">Direct / Own Website (0%)</option>
+              <option value="5">TikTok Shop (5%)</option>
+              <option value="10">Depop (10%)</option>
+              <option value="12.9">Vinted (12.9%)</option>
+              <option value="13.25">eBay (13.25%)</option>
+              <option value="15">Stockist / Wholesale (15%)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Packaging + Shipping (£)</label>
+            <input type="number" id="engShipping" placeholder="e.g. 3.50" min="0" step="0.01" oninput="calcEngine()" />
+          </div>
+          <div class="field">
+            <label class="field-label">VAT Registered?</label>
+            <select id="engVat" onchange="calcEngine()">
+              <option value="0">No — not VAT registered</option>
+              <option value="20">Yes — 20% UK VAT</option>
+            </select>
+          </div>
+        </div>
+        <div class="margin-slider-wrap">
+          <div class="margin-slider-top">
+            <span class="margin-slider-label">Target Profit Margin</span>
+            <span class="margin-slider-val" id="marginLabel">60%</span>
+          </div>
+          <input type="range" id="engMargin" min="10" max="90" value="60" step="1"
+            oninput="document.getElementById('marginLabel').textContent=this.value+'%'; updateSliderBg(this); calcEngine();" />
+        </div>
+
+        <div class="engine-result" id="engineResult">
+          <div class="result-item">
+            <p class="result-item-label">Sell Price</p>
+            <p class="result-item-val" id="resPrice">—</p>
+          </div>
+          <div class="result-item">
+            <p class="result-item-label">Your Profit</p>
+            <p class="result-item-val" id="resProfit">—</p>
+          </div>
+          <div class="result-item">
+            <p class="result-item-label">True Margin</p>
+            <p class="result-item-val" id="resMargin">—</p>
+          </div>
+        </div>
+        <div class="health-bar"><div class="health-fill" id="healthFill" style="width:0%"></div></div>
+
+        <div class="verdict" id="verdict" style="display:none"></div>
+
+        <button class="btn-save" onclick="savePricingResult()">Save to Products →</button>
+      </div>
+    </div>
+
+    <!-- QUICK LOG -->
+    <div class="expense-card">
+      <div class="card-header">
+        <div class="card-icon" style="background: var(--green-dim); border-color: rgba(92,186,138,0.2);">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" style="color: var(--green);">
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+        </div>
+        <div>
+          <p class="card-title">Log Transaction</p>
+          <p class="card-sub">Record income or an expense instantly</p>
+        </div>
+      </div>
+      <div class="expense-body">
+        <div class="field">
+          <label class="field-label">Description</label>
+          <input type="text" id="txDesc" placeholder="e.g. Tapstitch order — 20 hoodies" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Amount (£)</label>
+            <input type="number" id="txAmount" placeholder="0.00" min="0" step="0.01" />
+          </div>
+          <div class="field">
+            <label class="field-label">Type</label>
+            <select id="txType">
+              <option value="income">Income / Sale</option>
+              <option value="cogs">Cost of Goods (COGS)</option>
+              <option value="expense">Overhead Expense</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label">Category</label>
+            <select id="txCat">
+              <option value="Sales">Sales</option>
+              <option value="Production">Production</option>
+              <option value="Shipping">Shipping</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Packaging">Packaging</option>
+              <option value="Equipment">Equipment</option>
+              <option value="Software">Software</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label">Date</label>
+            <input type="date" id="txDate" />
+          </div>
+        </div>
+        <button class="btn-save" style="margin-top: 4px;" onclick="logTransaction()">Add Transaction</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSACTION LOG -->
+  <div class="section-head" style="margin-top: 8px;">
+    <span class="section-title">Transaction History</span>
+  </div>
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterTx('all', this)">All</button>
+        <button class="filter-tab" onclick="filterTx('income', this)">Income</button>
+        <button class="filter-tab" onclick="filterTx('cogs', this)">COGS</button>
+        <button class="filter-tab" onclick="filterTx('expense', this)">Expenses</button>
+      </div>
+      <button class="export-btn" onclick="exportCSV()">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+    </div>
+    <div id="txTableWrap">
+      <div class="empty-state">
+        <div class="empty-state-icon">◎</div>
+        <p class="empty-state-title">No transactions yet</p>
+        <p class="empty-state-sub">Log your first income or expense above to start tracking.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW: BREAKDOWN + GOALS -->
+  <div class="bottom-row">
+
+    <!-- COST BREAKDOWN -->
+    <div class="engine-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" style="color:var(--accent)">
+            <path d="M18 20V10M12 20V4M6 20v-6"/>
+          </svg>
+        </div>
+        <div>
+          <p class="card-title">Spend Breakdown</p>
+          <p class="card-sub">Where your money is going</p>
+        </div>
+      </div>
+      <div class="breakdown-body" id="breakdownBody">
+        <div class="empty-state" style="padding: 32px 0;">
+          <p class="empty-state-sub">Add expenses to see your breakdown.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCIAL GOALS -->
+    <div class="engine-card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--green-dim); border-color:rgba(92,186,138,0.2)">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" style="color:var(--green)">
+            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="card-title">Financial Goals</p>
+          <p class="card-sub">Track progress toward targets</p>
+        </div>
+      </div>
+      <div class="goals-body">
+        <div class="goal-item">
+          <div class="goal-top">
+            <span class="goal-name">First Drop Revenue</span>
+            <span class="goal-vals"><span id="g1curr">£0</span> / £500</span>
+          </div>
+          <div class="goal-track"><div class="goal-fill" id="g1fill" style="width:0%"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-top">
+            <span class="goal-name">Monthly Profit Target</span>
+            <span class="goal-vals"><span id="g2curr">£0</span> / £200</span>
+          </div>
+          <div class="goal-track"><div class="goal-fill" id="g2fill" style="width:0%"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-top">
+            <span class="goal-name">Break-even Point</span>
+            <span class="goal-vals"><span id="g3curr">£0</span> / £150</span>
+          </div>
+          <div class="goal-track"><div class="goal-fill" id="g3fill" style="width:0%; background: var(--red)"></div></div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-top">
+            <span class="goal-name">Reinvestment Fund</span>
+            <span class="goal-vals"><span id="g4curr">£0</span> / £1,000</span>
+          </div>
+          <div class="goal-track"><div class="goal-fill" id="g4fill" style="width:0%; background: var(--accent)"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── STATE ──
+let transactions = JSON.parse(localStorage.getItem('metic_transactions') || '[]');
+let txFilter = 'all';
+
+// ── INIT ──
+document.getElementById('txDate').valueAsDate = new Date();
+updateSliderBg(document.getElementById('engMargin'));
+renderAll();
+
+// ── SLIDER BG ──
+function updateSliderBg(el) {
+  const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+  el.style.setProperty('--pct', pct + '%');
+}
+
+// ── PRICING ENGINE ──
+function calcEngine() {
+  const cost      = parseFloat(document.getElementById('engCost').value) || 0;
+  const shipping  = parseFloat(document.getElementById('engShipping').value) || 0;
+  const platFee   = parseFloat(document.getElementById('engPlatform').value) || 0;
+  const vatRate   = parseFloat(document.getElementById('engVat').value) || 0;
+  const margin    = parseFloat(document.getElementById('engMargin').value) || 60;
+
+  if (cost <= 0) {
+    document.getElementById('resPrice').textContent  = '—';
+    document.getElementById('resProfit').textContent = '—';
+    document.getElementById('resMargin').textContent = '—';
+    document.getElementById('verdict').style.display = 'none';
+    document.getElementById('healthFill').style.width = '0%';
+    return;
+  }
+
+  const totalCost = cost + shipping;
+  // price = totalCost / (1 - margin/100 - platFee/100)
+  const divisor   = 1 - (margin / 100) - (platFee / 100);
+  if (divisor <= 0) return;
+  let price = totalCost / divisor;
+  if (vatRate > 0) price = price * (1 + vatRate / 100);
+  const fees   = price * (platFee / 100);
+  const profit = price / (1 + vatRate / 100) - totalCost - fees;
+  const trueMar = (profit / (price / (1 + vatRate / 100))) * 100;
+
+  document.getElementById('resPrice').textContent  = '£' + price.toFixed(2);
+  document.getElementById('resProfit').textContent = '£' + profit.toFixed(2);
+  document.getElementById('resMargin').textContent = trueMar.toFixed(1) + '%';
+
+  const pEl = document.getElementById('resPrice');
+  const profEl = document.getElementById('resProfit');
+  const marEl  = document.getElementById('resMargin');
+
+  if (trueMar >= 50) { profEl.className = 'result-item-val good'; marEl.className = 'result-item-val good'; }
+  else if (trueMar >= 30) { profEl.className = 'result-item-val warn'; marEl.className = 'result-item-val warn'; }
+  else { profEl.className = 'result-item-val bad'; marEl.className = 'result-item-val bad'; }
+
+  const health = Math.min(100, Math.max(0, (trueMar / 70) * 100));
+  const fill = document.getElementById('healthFill');
+  fill.style.width = health + '%';
+  fill.style.background = trueMar >= 50 ? 'var(--green)' : trueMar >= 30 ? 'var(--amber)' : 'var(--red)';
+
+  const v = document.getElementById('verdict');
+  v.style.display = 'flex';
+  if (trueMar >= 50) {
+    v.className = 'verdict good';
+    v.innerHTML = `<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Strong margin — this pricing works. Go for it.`;
+  } else if (trueMar >= 30) {
+    v.className = 'verdict warn';
+    v.innerHTML = `<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Acceptable, but tight. Consider reducing production cost or nudging the price up.`;
+  } else {
+    v.className = 'verdict bad';
+    v.innerHTML = `<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Margin too low — you'll be working for nothing. Revisit your costs or target margin.`;
+  }
+}
+
+function savePricingResult() {
+  const price = document.getElementById('resPrice').textContent;
+  if (price === '—') { alert('Run the calculator first.'); return; }
+  alert('Price ' + price + ' copied — paste it into your product entry.');
+}
+
+// ── LOG TRANSACTION ──
+function logTransaction() {
+  const desc   = document.getElementById('txDesc').value.trim();
+  const amount = parseFloat(document.getElementById('txAmount').value);
+  const type   = document.getElementById('txType').value;
+  const cat    = document.getElementById('txCat').value;
+  const date   = document.getElementById('txDate').value;
+
+  if (!desc) { alert('Please add a description.'); return; }
+  if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
+
+  transactions.unshift({ id: Date.now(), desc, amount, type, cat, date });
+  localStorage.setItem('metic_transactions', JSON.stringify(transactions));
+
+  document.getElementById('txDesc').value   = '';
+  document.getElementById('txAmount').value = '';
+  document.getElementById('txDate').valueAsDate = new Date();
+
+  renderAll();
+}
+
+function openExpenseModal() {
+  document.getElementById('txDesc').focus();
+  document.getElementById('txDesc').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── DELETE ──
+function deleteTx(id) {
+  transactions = transactions.filter(t => t.id !== id);
+  localStorage.setItem('metic_transactions', JSON.stringify(transactions));
+  renderAll();
+}
+
+// ── FILTER ──
+function filterTx(f, btn) {
+  txFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+// ── RENDER ALL ──
+function renderAll() {
+  renderStats();
+  renderTable();
+  renderBreakdown();
+  renderGoals();
+}
+
+function fmt(n) { return '£' + n.toFixed(2); }
+
+function renderStats() {
+  const income   = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const expenses = transactions.filter(t => t.type !== 'income').reduce((s, t) => s + t.amount, 0);
+  const profit   = income - expenses;
+  const margin   = income > 0 ? ((profit / income) * 100).toFixed(1) + '%' : '—';
+
+  document.getElementById('statRevenue').textContent  = fmt(income);
+  document.getElementById('statExpenses').textContent = fmt(expenses);
+  const pEl = document.getElementById('statProfit');
+  pEl.textContent = fmt(profit);
+  pEl.className = 'stat-value' + (profit > 0 ? ' green' : profit < 0 ? ' red' : '');
+  document.getElementById('statProfitNote').textContent = profit > 0 ? 'In the green ✓' : profit < 0 ? 'Net loss — watch costs' : 'Break even';
+  document.getElementById('statMargin').textContent = margin;
+}
+
+function renderTable() {
+  const wrap = document.getElementById('txTableWrap');
+  const list = txFilter === 'all' ? transactions : transactions.filter(t => t.type === txFilter);
+
+  if (list.length === 0) {
+    wrap.innerHTML = `<div class="empty-state">
+      <div class="empty-state-icon">◎</div>
+      <p class="empty-state-title">No transactions${txFilter !== 'all' ? ' in this category' : ' yet'}</p>
+      <p class="empty-state-sub">${txFilter === 'all' ? 'Log your first income or expense above to start tracking.' : 'Switch filter or log a new transaction.'}</p>
+    </div>`;
+    return;
+  }
+
+  const typeLabel = { income: 'Income', cogs: 'COGS', expense: 'Expense' };
+  const typeClass = { income: 'type-income', cogs: 'type-cogs', expense: 'type-expense' };
+
+  wrap.innerHTML = `<table>
+    <thead><tr>
+      <th>Description</th><th>Category</th><th>Type</th><th>Date</th><th>Amount</th><th></th>
+    </tr></thead>
+    <tbody>
+      ${list.map(t => `<tr>
+        <td>${t.desc}</td>
+        <td style="color:var(--text-3); font-size:12.5px">${t.cat}</td>
+        <td><span class="type-badge ${typeClass[t.type]}">${typeLabel[t.type]}</span></td>
+        <td style="color:var(--text-3); font-size:12.5px">${t.date}</td>
+        <td class="${t.type === 'income' ? 'amount-pos' : 'amount-neg'}">${t.type === 'income' ? '+' : '-'}${fmt(t.amount)}</td>
+        <td><button class="delete-btn" onclick="deleteTx(${t.id})" title="Delete">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button></td>
+      </tr>`).join('')}
+    </tbody>
+  </table>`;
+}
+
+function renderBreakdown() {
+  const body = document.getElementById('breakdownBody');
+  const expenses = transactions.filter(t => t.type !== 'income');
+  if (expenses.length === 0) {
+    body.innerHTML = `<div class="empty-state" style="padding:32px 0"><p class="empty-state-sub">Add expenses to see your breakdown.</p></div>`;
+    return;
+  }
+  const totals = {};
+  expenses.forEach(t => { totals[t.cat] = (totals[t.cat] || 0) + t.amount; });
+  const max = Math.max(...Object.values(totals));
+  const colors = ['var(--accent)', 'var(--green)', 'var(--red)', 'var(--amber)', '#7b8de0', '#e07bbb', '#7be0d4'];
+  const entries = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  body.innerHTML = entries.map(([cat, val], i) => `
+    <div class="breakdown-row">
+      <span class="breakdown-name">${cat}</span>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${(val/max*100).toFixed(1)}%; background:${colors[i % colors.length]}"></div></div>
+      <span class="breakdown-pct">${fmt(val)}</span>
+    </div>`).join('');
+}
+
+function renderGoals() {
+  const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const profit = income - transactions.filter(t => t.type !== 'income').reduce((s, t) => s + t.amount, 0);
+  const expenses = transactions.filter(t => t.type !== 'income').reduce((s, t) => s + t.amount, 0);
+
+  const goals = [
+    { curr: income,   target: 500,  id: 'g1' },
+    { curr: profit,   target: 200,  id: 'g2' },
+    { curr: expenses, target: 150,  id: 'g3' },
+    { curr: profit > 0 ? profit : 0, target: 1000, id: 'g4' },
+  ];
+  goals.forEach(g => {
+    const pct = Math.min(100, Math.max(0, (g.curr / g.target) * 100));
+    document.getElementById(g.id + 'curr').textContent = fmt(Math.max(0, g.curr));
+    document.getElementById(g.id + 'fill').style.width = pct.toFixed(1) + '%';
+  });
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  if (transactions.length === 0) { alert('No transactions to export.'); return; }
+  const rows = [['Description','Category','Type','Date','Amount']];
+  transactions.forEach(t => rows.push([t.desc, t.cat, t.type, t.date, t.amount.toFixed(2)]));
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'metic-finance-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+</script>
+<script>
+// Global Brand Settings Sync
+function syncBrandSettings() {
+    const settings = JSON.parse(localStorage.getItem('metic_brand_settings') || '{}');
+    
+    // Update nav brand name
+    const brandEl = document.getElementById('navBrandName');
+    if (brandEl && settings.brandName) brandEl.textContent = settings.brandName.split(' ')[0];
+
+    // Update accent color dynamically (optional advanced touch)
+    if (settings.brandColor) {
+        document.documentElement.style.setProperty('--accent', settings.brandColor);
+    }
+}
+
+// Quick action smart button
+function quickNewAction() {
+    const path = window.location.pathname;
+    if (path.includes('products')) {
+        // Trigger product modal if on products page
+        if (typeof openProductModal === 'function') openProductModal();
+        else location.href = 'products.html';
+    } else if (path.includes('suppliers')) {
+        if (typeof openSupplierModal === 'function') openSupplierModal();
+        else location.href = 'suppliers.html';
+    } else {
+        location.href = 'pages/products.html';
+    }
+}
+
+// Run on load
+document.addEventListener('DOMContentLoaded', () => {
+    syncBrandSettings();
+});
+</script>
+</body>
+</html>
